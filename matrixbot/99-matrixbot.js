@@ -3,6 +3,7 @@ module.exports = function(RED) {
 	"use strict";
 
 	var sdk = require("matrix-js-sdk");
+	var htmlToText = require("html-to-text");
 
 // --------------------------------------------------------------------------------------------
 	// The configuration node holds the configuration and credentials for all nodes.
@@ -158,7 +159,7 @@ module.exports = function(RED) {
 					});
 				}
 				else {
-					node.configNode.matrixClient.sendTextMessage(destRoom, msg.payload.toString())
+					node.configNode.matrixClient.sendHtmlMessage(destRoom, htmlToText.htmlToText(msg.payload.toString()), msg.payload.toString())
 						.then(function() {
 							node.log("Message sent: " + msg.payload);
 						}).catch(function(e){
